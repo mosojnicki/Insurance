@@ -1,0 +1,144 @@
+﻿@model IEnumerable<OsigDrustvo.Models.Partner>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <h4 class="p-2">Partner list</h4>
+    </div>
+    <div class="col-2"></div>
+</div>
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <table class="table table-striped" id="tablica">
+            <tr>
+                <th>
+                    <div style="display: none;">@Html.DisplayNameFor(model => model.PartnerId)</div>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FullName)
+                </th>
+                <th>
+                    <div style="display: none;">@Html.DisplayNameFor(model => model.Address)</div>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PartnerNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CroatianPin)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PartnerTypeId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedAtUtc)
+                </th>
+                <th>
+                    <div style="display: none;">@Html.DisplayNameFor(model => model.CreateByUser)</div>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsForeign)
+                </th>
+                <th>
+                    <div style="display:none;">@Html.DisplayNameFor(model => model.ExternalCode)</div>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Gender)
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                var className = "";
+                if (TempData["NewRow"] != null && (string)TempData["NewRow"] == item.ExternalCode)
+                {
+                    className = "alert-info";
+                }
+
+                <tr class="@className" data-id=@item.PartnerId data-toggle="modal" data-target="#listModal" id="@item.PartnerId">
+                    <td>
+                        <div style="display: none;">@Html.DisplayFor(modelItem => item.PartnerId)</div>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    <td>
+                        <div style="display: none;">@Html.DisplayFor(modelItem => item.Address)</div>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PartnerNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CroatianPin)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PartnerTypeId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedAtUtc)
+                    </td>
+                    <td>
+                        <div style="display: none;">@Html.DisplayFor(modelItem => item.CreateByUser)</div>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsForeign)
+                    </td>
+                    <td>
+                        <div style="display:none;">@Html.DisplayFor(modelItem => item.ExternalCode)</div>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Gender)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="col-2"></div>
+</div>
+
+<div id="myModal" class="modal fade" role="dialog" aria-labelledby="myModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Details</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+            </div>
+            <div class="modal-body">
+                <label class="text-info">FullName:</label>
+                <p id="FullName"></p>
+                <label class="text-info">Address:</label>
+                <p id="Address"></p>
+                <label class="text-info">CreatedByUser:</label>
+                <p id="CreateByUser" class="text-black"></p>
+                <label class="text-info">ExternalCode:</label>
+                <p id="ExternalCode"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    $('tr').on('click', function () {
+        var id = $(this).attr('id');
+        $('#FullName').html(document.getElementById(id).children[1].innerHTML);
+        $('#Address').html(document.getElementById(id).children[2].children[0].innerHTML);
+        $('#CreateByUser').html(document.getElementById(id).children[7].children[0].innerHTML);
+        $('#ExternalCode').html(document.getElementById(id).children[9].children[0].innerHTML);
+        $("#myModal").modal("show");
+    });
+</script>
